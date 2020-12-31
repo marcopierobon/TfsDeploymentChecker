@@ -1,0 +1,49 @@
+﻿@page "/showenvironments"
+
+@using TfsDeploymentChecker.BusinessLogic.Abstractions
+@using TfsDeploymentChecker.Models.Internal
+@using System.Collections.Generic
+@inject IReleaseInfoCoordinator ReleaseInfoCoordinator
+
+@if (targetSystems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var targetSystem in targetSystems)
+    {
+        <div class="container">
+            <p><h2>@targetSystem.TargetSystemName</h2></p>
+            @foreach (var releasedEnvironment in targetSystem.ReleasedEnvironments)
+            {
+
+                <div class="deploy">
+
+                    <div class="@releasedEnvironment.DeploymentResult.DeploymentStatus">
+                        <p class="status"><em>Status:</em> @releasedEnvironment.DeploymentResult.DeploymentStatus</p>
+                        <p><em>Release: </em><a href="@releasedEnvironment.DeploymentResult.ReleaseUrl">@releasedEnvironment.DeploymentResult.ReleaseName</a></p>
+                        <p><h3>@releasedEnvironment.DeploymentResult.EnvironmentName</h3></p>
+                        <p><em>Package version:</em> <a href="@releasedEnvironment.DeploymentResult.PackageUrl">@releasedEnvironment.DeploymentResult.PackageVersion</a> </p>
+                        <p><em>Branch:</em> @releasedEnvironment.DeploymentResult.BranchName</p>
+                        <p>
+                            <em>Started On:</em> @releasedEnvironment.DeploymentResult.StartedOn<br/>
+                            <em>Completed On:</em> @releasedEnvironment.DeploymentResult.CompletedOn
+                        </p>
+
+                    </div>
+
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<TargetSystem> targetSystems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        targetSystems = await ReleaseInfoCoordinator.Get();
+    }
+}

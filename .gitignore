@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TfsDeploymentChecker.UI/obj
+/TfsDeploymentChecker.UI/bin/Debug/net5.0
+/TfsDeploymentChecker.Models/bin/Debug/net5.0
+/TfsDeploymentChecker.Models/obj
+/TfsDeploymentChecker.BusinessLogic/obj/Debug/netcoreapp3.1
+/TfsDeploymentChecker.BusinessLogic/obj
+/TfsDeploymentChecker.BusinessLogic/bin/Debug/net5.0
+/.vs/DeploymentChecker/v15
+/.vs/DeploymentChecker/DesignTimeBuild
+/.vs/DeploymentChecker/v16/.suo
