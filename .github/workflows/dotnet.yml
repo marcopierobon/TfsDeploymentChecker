@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.101
     - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+      run: dotnet restore DeploymentChecker.sln
+    - name: Build DeploymentChecker.sln
+      run: dotnet build --no-restore TfsDeploymentChecker.UI\TfsDeploymentChecker.UI.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal
