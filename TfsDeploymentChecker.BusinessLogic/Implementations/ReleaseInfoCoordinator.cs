@@ -52,7 +52,7 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
                     foreach (var envIdEnvNameCouple in _envIdEnvNameDictionary)
                     {
                         var matchingEnv = _targetSystems.Where(targetSystem =>
-                            envIdEnvNameCouple.Value.ToUpperInvariant().StartsWith(targetSystem.TargetSystemName.ToUpperInvariant()));
+                            envIdEnvNameCouple.Value.ToUpperInvariant().Contains(targetSystem.TargetSystemName.ToUpperInvariant()));
                         if (matchingEnv.Count() > 1)
                         {
                             throw new InvalidOperationException($"There are multiple target environments matching the name " +
