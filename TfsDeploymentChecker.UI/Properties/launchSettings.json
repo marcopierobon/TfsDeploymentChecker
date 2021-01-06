@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Sequel.DeploymentChecker.UI": {
+    "TfsDeploymentChecker.UI": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -26,8 +26,12 @@
     },
     "Docker": {
       "commandName": "Docker",
+      "commandLineArgs": "..",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
       "publishAllPorts": true,
       "useSSL": true
     }

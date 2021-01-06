@@ -1,0 +1,54 @@
+﻿@page "/healthcheckdetails"
+@using TfsDeploymentChecker.BusinessLogic.Abstractions
+@using TfsDeploymentChecker.Models.Exceptions
+
+@inject IHealthCheckPerformer HealthCheckPerformer
+
+<div>
+    <p>
+        Human readable version of the healthcheck. If you're after the service healthcheck hit /healthcheck.
+        /healthcheck only returns a 200 if all is good, and a 500 in case of error.
+    </p>
+</div>
+
+@if (isHealthy == null)
+{
+    <p><em>Determining the service status...</em></p>
+}
+else if (isHealthy.HasValue && isHealthy.Value == false)
+{
+    <div>
+        <p><b>Unhealthy status reasons:</b></p>
+        <p>
+            @healthCheckDetails.
+        </p>
+    </div>
+
+
+
+}
+else
+{
+    <div><p>Healthy</p></div>
+}
+
+@code {
+    private bool? isHealthy;
+    private MarkupString healthCheckDetails;
+
+    protected override async Task OnInitializedAsync ()
+    {
+        try
+        {
+            isHealthy = await HealthCheckPerformer.IsHealthy();
+        }
+        catch (CustomBlazorException customBlazorException)
+        {
+            healthCheckDetails = (MarkupString)customBlazorException.Message.Replace(Environment.NewLine, "<br />");
+        }
+        catch (Exception exception)
+        {
+            healthCheckDetails = (MarkupString)"Uncontrolled exception";
+        }
+    }
+}

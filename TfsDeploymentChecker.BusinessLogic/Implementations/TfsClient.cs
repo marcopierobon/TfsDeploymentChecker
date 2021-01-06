@@ -8,19 +8,16 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
 {
     public class TfsClient : ITfsClient
     {
-        public TfsClient(string token, bool allowUntrustedSslCertificates)
+        public TfsClient(IConfigurationRetriever configurationRetriever)
         {
-            _token = token;
-            _allowUntrustedSslCertificates = allowUntrustedSslCertificates;
+            _configurationRetriever = configurationRetriever;
         }
 
-        private string _token { get; set; }
-
-        private bool _allowUntrustedSslCertificates { get; set; }
+        private IConfigurationRetriever _configurationRetriever { get; set; }
 
         public HttpClient GetClient()
         {
-            var handler = _allowUntrustedSslCertificates
+            var handler = _configurationRetriever.AllowUntrustedSslCertificates
                             ?
                                 new HttpClientHandler()
                                 {
@@ -29,10 +26,9 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
                             :
                                 new HttpClientHandler();
             var client = new HttpClient(handler);
-            var base64TfsToken =  Convert.ToBase64String(
+            var base64TfsToken = Convert.ToBase64String(
                 Encoding.ASCII.GetBytes(
-                    $"API_KEY:{_token}"
-                ));
+                    $"API_KEY:{_configurationRetriever.TfsToken}"));
             client.DefaultRequestHeaders.Authorization = 
                 new AuthenticationHeaderValue("Basic", base64TfsToken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

@@ -12,6 +12,8 @@ namespace TfsDeploymentChecker.Models.Internal
 
         public string DeploymentStatus { get; set; }
 
+        public string RepositoryName { get; set; }
+
         public string DefinitionName { get; set; }
 
         public string ReleaseName { get; set; }
@@ -19,11 +21,17 @@ namespace TfsDeploymentChecker.Models.Internal
         public string ReleaseUrl { get; set; }
 
         public string PackageUrl { get; set; }
+        
+        public string CommitIdOrChangeSetId { get; set; }
+
+        public string CodeVersionUrl { get; set; }
 
         public string BranchName { get; set; }
 
         public DateTime StartedOn { get; set; }
 
         public DateTime CompletedOn { get; set; }
+
+        public int AttemptNumber { get; set; }
     }
 }

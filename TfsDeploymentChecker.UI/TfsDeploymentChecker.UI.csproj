@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>2eacd2c0-f9ca-4b8a-8f2f-e88cbc1374f6</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileRunArguments>--net bridge</DockerfileRunArguments>
+    <DockerfileFile>..\Dockerfile</DockerfileFile>  
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\Settings.StyleCop" Link="Settings.StyleCop" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
@@ -14,6 +19,12 @@
   <ItemGroup>
     <ProjectReference Include="..\TfsDeploymentChecker.BusinessLogic\TfsDeploymentChecker.BusinessLogic.csproj" />
     <ProjectReference Include="..\TfsDeploymentChecker.Models\TfsDeploymentChecker.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

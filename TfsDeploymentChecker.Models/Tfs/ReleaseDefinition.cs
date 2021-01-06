@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace TfsDeploymentChecker.Models.Tfs
 {
@@ -487,6 +489,9 @@ namespace TfsDeploymentChecker.Models.Tfs
         public SourceVersion sourceVersion { get; set; }
         public Version version { get; set; }
         public Project project { get; set; }
+        public Repository repository { get; set; }
+        [JsonPropertyName("repository.provider")]
+        public RepositoryProvider repositoryProvider { get; set; }
     }
 
     public class Artifactsourcedefinitionurl

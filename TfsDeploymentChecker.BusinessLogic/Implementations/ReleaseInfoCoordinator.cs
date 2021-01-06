@@ -14,22 +14,13 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
         public ReleaseInfoCoordinator(
                 IReleaseEnvironmentsGetter releaseEnvironmentsGetter, 
                 IEnvironmentDeployedGetter environmentDeployedGetter,
-                IConfiguration configuration)
+                IConfigurationRetriever configurationRetriever)
         {
             _releaseEnvironmentsGetter = releaseEnvironmentsGetter;
             _environmentDeployedGetter = environmentDeployedGetter;
-            _tfsUrl = configuration.GetValue<string>("TfsUrl");
-            _systemsOfInterest = configuration.GetValue<string>("SystemsOfInterest").Split(',').ToList();
-            var releasesForTeamProjectsStr = configuration.GetValue<string>("TeamProjectsAndReleaseIdsPairs");
-            _teamProjectsAndReleaseIdsPairs = JsonSerializer.Deserialize<IEnumerable<ReleasesForTeamProject>>(releasesForTeamProjectsStr);
+            _configurationRetriever = configurationRetriever;
             _targetSystems = new List<TargetSystem>();
         }
-
-        private IEnumerable<ReleasesForTeamProject> _teamProjectsAndReleaseIdsPairs { get; set; }
-
-        private string _tfsUrl { get; set; }
-
-        private IEnumerable<string> _systemsOfInterest { get; set; }
 
         private Dictionary<int, string> _envIdEnvNameDictionary { get; set; }
 
@@ -39,9 +30,11 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
 
         private IEnvironmentDeployedGetter _environmentDeployedGetter { get; }
 
+        private IConfigurationRetriever _configurationRetriever { get; set; }
+
         public async Task<IEnumerable<TargetSystem>> Get()
         {
-            foreach (var systemOfInterest in _systemsOfInterest)
+            foreach (var systemOfInterest in _configurationRetriever.SystemsOfInterest)
             {
                 _targetSystems.Add(new TargetSystem()
                 {
@@ -50,11 +43,11 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
                 });
             }
 
-            foreach (var releasesForTeamProject in _teamProjectsAndReleaseIdsPairs)
+            foreach (var releasesForTeamProject in _configurationRetriever.TeamProjectsAndReleaseIdsPairs)
             {
                 foreach (var releaseDefinitionId in releasesForTeamProject.ProjectReleaseDefinitionIds)
                 {
-                    _envIdEnvNameDictionary = await _releaseEnvironmentsGetter.GetEnvironmentsForRelease(_tfsUrl, releasesForTeamProject.TfsTeamProjectName, releaseDefinitionId);
+                    _envIdEnvNameDictionary = await _releaseEnvironmentsGetter.GetEnvironmentsForRelease(releasesForTeamProject.TfsTeamProjectName, releaseDefinitionId);
 
                     foreach (var envIdEnvNameCouple in _envIdEnvNameDictionary)
                     {
@@ -83,8 +76,8 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
             {
                 foreach (var releasedEnvironment in targetSystem.ReleasedEnvironments)
                 {
-                    var targetProjectName = _teamProjectsAndReleaseIdsPairs.FirstOrDefault(releaseForTeamProjects => releaseForTeamProjects.ProjectReleaseDefinitionIds.Contains(releasedEnvironment.ReleaseDefinitionId)).TfsTeamProjectName;
-                    releasedEnvironment.DeploymentResult = await _environmentDeployedGetter.GetReleasedEnvironmentInformation(_tfsUrl, targetProjectName, releasedEnvironment.ReleaseDefinitionId, releasedEnvironment.EnvironmentId);
+                    var targetProjectName = _configurationRetriever.TeamProjectsAndReleaseIdsPairs.FirstOrDefault(releaseForTeamProjects => releaseForTeamProjects.ProjectReleaseDefinitionIds.Contains(releasedEnvironment.ReleaseDefinitionId)).TfsTeamProjectName;
+                    releasedEnvironment.DeploymentResult = await _environmentDeployedGetter.GetReleasedEnvironmentInformation(targetProjectName, releasedEnvironment.ReleaseDefinitionId, releasedEnvironment.EnvironmentId);
                 }
             }
 

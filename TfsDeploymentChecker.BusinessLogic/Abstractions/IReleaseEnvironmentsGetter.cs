@@ -5,6 +5,6 @@ namespace TfsDeploymentChecker.BusinessLogic.Abstractions
 {
     public interface IReleaseEnvironmentsGetter
     {
-        Task<Dictionary<int, string>> GetEnvironmentsForRelease(string tfsUrl, string tfsTeamProjectName, int releaseDefinitionId);
+        Task<Dictionary<int, string>> GetEnvironmentsForRelease(string tfsTeamProjectName, int releaseDefinitionId);
     }
 }

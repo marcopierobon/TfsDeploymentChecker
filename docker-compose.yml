@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  tfsdeploymentchecker.ui:
+    image: ${DOCKER_REGISTRY-}tfsdeploymentcheckerui
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+        - ASPNETCORE_TfsToken
+        - ASPNETCORE_TfsUrl
+        - ASPNETCORE_AllowUntrustedSslCertificates
+        - ASPNETCORE_SystemsOfInterest
+        - ASPNETCORE_TeamProjectsAndReleaseIdsPairs
+        - ASPNETCORE_HealthCheckIntervalInSeconds
+        - ASPNETCORE_TfsApiVersion
+    ports:
+      - "5000:5000"
+      - "5001:5001"

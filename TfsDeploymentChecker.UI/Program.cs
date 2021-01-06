@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace TfsDeploymentChecker.UI
@@ -15,6 +16,16 @@ namespace TfsDeploymentChecker.UI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                  {
+                    var env = hostingContext.HostingEnvironment;
+                    env.EnvironmentName = "Development";
+                    config.SetBasePath(env.ContentRootPath);
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                    config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                    config.AddEnvironmentVariables("ASPNETCORE_");
+                    config.AddCommandLine(args);
+                  });
     }
 }

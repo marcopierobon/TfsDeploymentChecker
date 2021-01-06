@@ -1,0 +1,18 @@
+﻿@page "/healthcheck"
+@using TfsDeploymentChecker.BusinessLogic.Abstractions
+
+@inject IHealthCheckPerformer HealthCheckPerformer
+
+@if (isHealthy)
+{
+    <div><p>Healthy</p></div>
+}
+
+@code {
+    private bool isHealthy;
+
+    protected override async Task OnInitializedAsync ()
+    {
+        isHealthy = await HealthCheckPerformer.IsHealthy();
+    }
+}

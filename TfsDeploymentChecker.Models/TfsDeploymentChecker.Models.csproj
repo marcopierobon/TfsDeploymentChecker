@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="StyleCop.Cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\Settings.StyleCop" Link="Settings.StyleCop" />
+    <AdditionalFiles Include="StyleCop.Cache" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Tfs\EnvironmentDeployedExecution.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>

@@ -10,9 +10,12 @@ namespace TfsDeploymentChecker.UI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            webHostEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,13 +25,19 @@ namespace TfsDeploymentChecker.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddSingleton<ITfsClient>((tfsClient) => new TfsClient(
-                Configuration.GetValue<string>("TfsToken"),
-                Configuration.GetValue<bool>("AllowUntrustedSslCertificates")));
+            services.AddServerSideBlazor().AddCircuitOptions(o =>
+            {
+                if (webHostEnvironment.IsDevelopment())
+                { 
+                    o.DetailedErrors = true;
+                }
+            });
+            services.AddSingleton<ITfsClient, TfsClient>();
+            services.AddSingleton<IConfigurationRetriever, ConfigurationRetriever>();
             services.AddTransient<IEnvironmentDeployedGetter, EnvironmentDeployedGetter>();
             services.AddTransient<IReleaseEnvironmentsGetter, ReleaseEnvironmentsGetter>();
             services.AddTransient<IReleaseInfoCoordinator, ReleaseInfoCoordinator>();
+            services.AddTransient<IHealthCheckPerformer, HealthCheckPerformer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

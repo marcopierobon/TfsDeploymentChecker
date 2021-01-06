@@ -12,3 +12,7 @@
 /.vs/DeploymentChecker/v15
 /.vs/DeploymentChecker/DesignTimeBuild
 /.vs/DeploymentChecker/v16/.suo
+/obj
+/TfsDeploymentChecker.BusinessLogic.UnitTests/bin/Debug/net5.0
+/TfsDeploymentChecker.BusinessLogic.UnitTests/obj
+/.vs/DeploymentChecker/v16/TestStore/0

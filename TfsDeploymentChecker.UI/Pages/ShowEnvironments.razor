@@ -22,12 +22,25 @@ else
 
                     <div class="@releasedEnvironment.DeploymentResult.DeploymentStatus">
                         <p class="status"><em>Status:</em> @releasedEnvironment.DeploymentResult.DeploymentStatus</p>
-                        <p><em>Release: </em><a href="@releasedEnvironment.DeploymentResult.ReleaseUrl">@releasedEnvironment.DeploymentResult.ReleaseName</a></p>
-                        <p><h3>@releasedEnvironment.DeploymentResult.EnvironmentName</h3></p>
-                        <p><em>Package version:</em> <a href="@releasedEnvironment.DeploymentResult.PackageUrl">@releasedEnvironment.DeploymentResult.PackageVersion</a> </p>
-                        <p><em>Branch:</em> @releasedEnvironment.DeploymentResult.BranchName</p>
                         <p>
-                            <em>Started On:</em> @releasedEnvironment.DeploymentResult.StartedOn<br/>
+                            <em>Repository:</em> @releasedEnvironment.DeploymentResult.RepositoryName<br />
+                            <em>Release: </em><a href="@releasedEnvironment.DeploymentResult.ReleaseUrl">@releasedEnvironment.DeploymentResult.ReleaseName</a>
+                        </p>
+                        <p><h3>@releasedEnvironment.DeploymentResult.EnvironmentName</h3></p>
+                        <p>
+                            <em>Branch:</em> @releasedEnvironment.DeploymentResult.BranchName<br />
+                            <em>Package version:</em> <a href="@releasedEnvironment.DeploymentResult.PackageUrl">@releasedEnvironment.DeploymentResult.PackageVersion</a><br />
+                            <em>Code version:</em> 
+                            
+                            <a href="@releasedEnvironment.DeploymentResult.CodeVersionUrl">
+                                @(releasedEnvironment.DeploymentResult.CommitIdOrChangeSetId != null ? 
+                                    @releasedEnvironment.DeploymentResult.CommitIdOrChangeSetId : 
+                                    "Not available")
+                            </a>
+                        </p>
+                        <p>
+                            <em>Attempt #:</em> @releasedEnvironment.DeploymentResult.AttemptNumber<br />
+                            <em>Started On:</em> @releasedEnvironment.DeploymentResult.StartedOn<br />
                             <em>Completed On:</em> @releasedEnvironment.DeploymentResult.CompletedOn
                         </p>
 
@@ -42,7 +55,7 @@ else
 @code {
     private IEnumerable<TargetSystem> targetSystems;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync ()
     {
         targetSystems = await ReleaseInfoCoordinator.Get();
     }

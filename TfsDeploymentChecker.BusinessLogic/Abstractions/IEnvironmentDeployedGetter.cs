@@ -5,6 +5,6 @@ namespace TfsDeploymentChecker.BusinessLogic.Abstractions
 {
     public interface IEnvironmentDeployedGetter
     {
-        Task<DeploymentResult> GetReleasedEnvironmentInformation(string tfsUrl, string projectCollection, int releaseId, int environmentId);
+        Task<DeploymentResult> GetReleasedEnvironmentInformation(string projectCollection, int releaseId, int environmentId);
     }
 }

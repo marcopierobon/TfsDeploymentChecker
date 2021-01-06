@@ -8,16 +8,21 @@ namespace TfsDeploymentChecker.BusinessLogic.Implementations
 {
     public class ReleaseEnvironmentsGetter : IReleaseEnvironmentsGetter
     {
-        public ReleaseEnvironmentsGetter(ITfsClient tfsClient)
+        public ReleaseEnvironmentsGetter(
+            ITfsClient tfsClient,
+            IConfigurationRetriever configurationRetriever)
         {
             _tfsClient = tfsClient;
+            _configurationRetriever = configurationRetriever;
         }
 
         private ITfsClient _tfsClient { get; }
 
-        public async Task<Dictionary<int, string>> GetEnvironmentsForRelease(string tfsUrl, string tfsTeamProjectName, int releaseDefinitionId)
+        private IConfigurationRetriever _configurationRetriever { get; set; }
+
+        public async Task<Dictionary<int, string>> GetEnvironmentsForRelease(string tfsTeamProjectName, int releaseDefinitionId)
         {
-            var urlToCall = $"{tfsUrl}/{tfsTeamProjectName}/_apis/release/definitions/{releaseDefinitionId}?api-version=4.0";
+            var urlToCall = UrlUtils.GetReleaseDefinitionUrl(_configurationRetriever.TfsUrl, tfsTeamProjectName, releaseDefinitionId, _configurationRetriever.TfsApiVersion);
 
             var envIdEnvNameDictionary = new Dictionary<int, string>();
             ReleaseDefinition releaseDefinition = null;
