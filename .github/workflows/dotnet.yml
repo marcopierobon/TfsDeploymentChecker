@@ -23,9 +23,3 @@ jobs:
       run: dotnet build --no-restore TfsDeploymentChecker.UI/TfsDeploymentChecker.UI.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: DevSkim
-      uses: microsoft/DevSkim-Action@v1
-    - name: AppInspector
-      uses: microsoft/ApplicationInspector-Action@v1
-
-
