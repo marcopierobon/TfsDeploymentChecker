@@ -82,3 +82,9 @@ There are 2 endpoints for the healthchecks:
 * /healthcheckdetails:it returns a basic page with the 200 http code if all is good and a page with the 200 http code showing with the error details when there is an error.
 
 Both endpoints use the HealthCheckIntervalInSeconds value.
+
+## Additional info
+
+Repo's sensitive information protected with 
+
+![Git guardian](https://assets-global.website-files.com/5ee25cbe47310017adf964da/5ee3a42a75f46b013298c2dd_Full-Default-Light.svg)
