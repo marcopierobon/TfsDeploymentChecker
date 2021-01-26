@@ -91,3 +91,6 @@ Repo's sensitive information protected with
 
 ![Git guardian](https://assets-global.website-files.com/5ee25cbe47310017adf964da/5ee3a42a75f46b013298c2dd_Full-Default-Light.svg)
 
+[![CodeScene Code Health](https://codescene.io/projects/12334/status-badges/code-health)](https://codescene.io/projects/12334)
+
+[![CodeScene System Mastery](https://codescene.io/projects/12334/status-badges/system-mastery)](https://codescene.io/projects/12334)
