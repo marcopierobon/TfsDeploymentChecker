@@ -16,3 +16,4 @@
 /TfsDeploymentChecker.BusinessLogic.UnitTests/bin/Debug/net5.0
 /TfsDeploymentChecker.BusinessLogic.UnitTests/obj
 /.vs/DeploymentChecker/v16/TestStore/0
+*.user
