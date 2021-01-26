@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore DeploymentChecker.sln
     - name: Build DeploymentChecker.sln
-      run: dotnet build --no-restore TfsDeploymentChecker.UI/TfsDeploymentChecker.UI.csproj
-    - name: Test TfsDeploymentChecker.BusinessLogic.UnitTests\TfsDeploymentChecker.BusinessLogic.UnitTests.csproj
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build --no-restore DeploymentChecker.sln
+    - name: Test DeploymentChecker.sln
+      run: dotnet test --no-build --verbosity normal DeploymentChecker.sln
