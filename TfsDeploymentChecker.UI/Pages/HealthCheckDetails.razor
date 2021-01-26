@@ -46,7 +46,7 @@ else
         {
             healthCheckDetails = (MarkupString)customBlazorException.Message.Replace(Environment.NewLine, "<br />");
         }
-        catch (Exception exception)
+        catch (Exception)
         {
             healthCheckDetails = (MarkupString)"Uncontrolled exception";
         }
