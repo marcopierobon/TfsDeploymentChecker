@@ -1,5 +1,7 @@
 # TFS Deployment Checker
 
+![.NET](https://github.com/marcopierobon/TfsDeploymentChecker/workflows/.NET/badge.svg?branch=master)
+
 ## Introduction
 
 This tool is intended to provide a simplified visualization for the deployment of software under a microservice architecture.
